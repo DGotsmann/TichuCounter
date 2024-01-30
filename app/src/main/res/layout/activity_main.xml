@@ -12,7 +12,7 @@
         android:layout_height="66dp"
         android:hint="Enter a score"
         android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/finishButton"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,16 +25,17 @@
         android:ems="10"
         android:hint="Enter a score"
         android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/finishButton"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/finishButton"
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/scoreInput1"
+        android:layout_marginBottom="5dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +45,7 @@
         android:id="@+id/scoreTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/finishButton"
+        android:layout_below="@id/saveButton"
         android:layout_marginTop="50dp"
         android:text="0"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -74,34 +75,194 @@
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
         android:max="32"
         android:progress="16"
-        app:layout_constraintBottom_toTopOf="@+id/scoreInput1"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="78dp"
-        tools:layout_editor_absoluteY="410dp" />
+        android:id="@+id/tichuView1"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="No \n Tichu"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="485dp" />
+        android:id="@+id/plusButton1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="+"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tichuView1" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="42dp"
-        android:layout_height="29dp"
-        android:text="Button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="408dp" />
+        android:id="@+id/minusButton1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput2"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/nameInput1"
+        android:layout_width="160dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="2dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreInput1" />
+
+    <EditText
+        android:id="@+id/nameInput3"
+        android:layout_width="160dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="2dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/scoreInput2" />
+
+    <EditText
+        android:id="@+id/nameInput2"
+        android:layout_width="160dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="2dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/nameInput4"
+        android:layout_width="160dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="1dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/tichuView3"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="No \n Tichu"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput4"
+        tools:layout_editor_absoluteX="279dp" />
+
+    <TextView
+        android:id="@+id/tichuView2"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="No \n Tichu"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tichuView4"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="No \n Tichu"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/minusButton3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput4"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView3"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/plusButton3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="+"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tichuView3" />
+
+    <Button
+        android:id="@+id/minusButton2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/plusButton2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="+"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tichuView2" />
+
+    <Button
+        android:id="@+id/minusButton4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/plusButton4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="+"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tichuView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

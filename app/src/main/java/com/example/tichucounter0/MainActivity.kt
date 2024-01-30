@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         var isupdating: Boolean = false //used to stop infinite updates of textEdits
         var sliderValue: Int = 16 // position of slider, Default value (center)
 
-        val saveButton: Button = findViewById(R.id.finishButton)
+        val saveButton: Button = findViewById(R.id.saveButton)
         val scoreInput1: EditText = findViewById(R.id.scoreInput1)
         val scoreInput2: EditText = findViewById(R.id.scoreInput2)
         val score1TextView: TextView = findViewById(R.id.scoreTextView1)
