@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/scoreInput1"
+        android:layout_width="132dp"
+        android:layout_height="66dp"
+        android:hint="Enter a score"
+        android:inputType="numberSigned"
+        app:layout_constraintBottom_toTopOf="@+id/finishButton"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/scoreInput2"
+        android:layout_width="146dp"
+        android:layout_height="62dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:hint="Enter a score"
+        android:inputType="numberSigned"
+        app:layout_constraintBottom_toTopOf="@+id/finishButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/finishButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scoreInput1"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/finishButton"
+        android:layout_marginTop="50dp"
+        android:text="0"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <SeekBar
+        android:id="@+id/scoresliderBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:max="32"
+        android:progress="16"
+        app:layout_constraintBottom_toTopOf="@+id/scoreInput1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="78dp"
+        tools:layout_editor_absoluteY="410dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="408dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="42dp"
+        android:layout_height="29dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="408dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
