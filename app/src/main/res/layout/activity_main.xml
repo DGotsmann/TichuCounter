@@ -93,8 +93,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="408dp" />
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="485dp" />
 
     <Button
         android:id="@+id/button2"
