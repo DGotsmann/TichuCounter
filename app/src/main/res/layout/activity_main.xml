@@ -175,7 +175,8 @@
         android:text="No \n Tichu"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/nameInput4"
-        tools:layout_editor_absoluteX="279dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/tichuView2"
