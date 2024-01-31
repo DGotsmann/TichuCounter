@@ -1,5 +1,6 @@
 package com.example.tichucounter0
 
+import android.content.res.Configuration
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,14 +25,15 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
     //initializing variables and objects
 
-    var score1: MutableList<Int> = mutableListOf(0)
-    var score2: MutableList<Int> = mutableListOf(0)
+    var currentgame: Game = Game() //game variable, that saves scores, tichus and names
+
     var isupdating: Boolean = false //used to stop infinite updates of textEdits
     var sliderValue: Int = 16 // position of slider, Default value (center)
-    var tichu1: Int = 0
-    var tichu2: Int = 0
-    var tichu3: Int = 0
-    var tichu4: Int = 0
+
+    // Get the current theme mode
+    val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+    val isNightMode = nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+
 
     val saveButton: Button = findViewById(R.id.saveButton)
     val scoreInput1: EditText = findViewById(R.id.scoreInput1)
@@ -73,8 +75,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
             scr2 = 100-(sliderValue-6)*5
         }
 
-        scr1 += 100*(tichu1 + tichu2)
-        scr2 += 100*(tichu3 + tichu4)
+        scr1 += 100*(currentgame.tichu1.last() + currentgame.tichu2.last())
+        scr2 += 100*(currentgame.tichu3.last() + currentgame.tichu4.last())
 
         scoreInput1.setText(scr1.toString())
         scoreInput2.setText(scr2.toString())
@@ -87,9 +89,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
         val entries1 = mutableListOf<Entry>()
         val entries2 = mutableListOf<Entry>()
 
-        for (i in score1.indices) {
-            entries1.add(Entry(i.toFloat(), score1[i].toFloat()))
-            entries2.add(Entry(i.toFloat(), score2[i].toFloat()))
+        for (i in currentgame.score1.indices) {
+            entries1.add(Entry(i.toFloat(), currentgame.score1[i].toFloat()))
+            entries2.add(Entry(i.toFloat(), currentgame.score2[i].toFloat()))
         }
 
         // Create LineDataSet objects for score1 and score2
@@ -124,7 +126,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
                 isupdating = true
 
                 val inputText = s.toString()
-                if (inputText.isNotEmpty()){
+                if (inputText.isNotEmpty() && inputText != "-"){
                     if (inputText.toInt()%5 == 0){//need for userfriendly input
                     sliderValue = inputText.toInt()/5+6
                     displayroundscore()
@@ -190,7 +192,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     fun adjusttichuview(view: TextView,tichucount: Int){
         if(tichucount == 0){
             view.text = "Kein\nTichu"
-            view.setTextColor(Color.BLACK)
+            view.setTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
         }
         else if(kotlin.math.abs(tichucount) == 1){
             view.text = "Tichu"
@@ -210,57 +212,57 @@ override fun onCreate(savedInstanceState: Bundle?) {
     }
 
     plusButton1.setOnClickListener {
-        if(tichu1 < 3){tichu1 += 1}
-        adjusttichuview(tichuView1, tichu1)
+        if(currentgame.tichu1.last() < 3){currentgame.tichu1[currentgame.tichu1.size-1] += 1}
+        adjusttichuview(tichuView1, currentgame.tichu1.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     plusButton2.setOnClickListener {
-        if(tichu2 < 3){tichu2 += 1}
-        adjusttichuview(tichuView2, tichu2)
+        if(currentgame.tichu2.last() < 3){currentgame.tichu2[currentgame.tichu2.size-1] += 1}
+        adjusttichuview(tichuView2, currentgame.tichu2.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     plusButton3.setOnClickListener {
-        if(tichu3 < 3){tichu3 += 1}
-        adjusttichuview(tichuView3, tichu3)
+        if(currentgame.tichu3.last() < 3){currentgame.tichu3[currentgame.tichu3.size-1] += 1}
+        adjusttichuview(tichuView3, currentgame.tichu3.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     plusButton4.setOnClickListener {
-        if(tichu4 < 3){tichu4 += 1}
-        adjusttichuview(tichuView4, tichu4)
+        if(currentgame.tichu4.last() < 3){currentgame.tichu4[currentgame.tichu4.size-1] += 1}
+        adjusttichuview(tichuView4, currentgame.tichu4.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     minusButton1.setOnClickListener {
-        if(tichu1 > -3){tichu1 -= 1}
-        adjusttichuview(tichuView1, tichu1)
+        if(currentgame.tichu1.last() > -3){currentgame.tichu1[currentgame.tichu1.size-1] -= 1}
+        adjusttichuview(tichuView1, currentgame.tichu1.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     minusButton2.setOnClickListener {
-        if(tichu2 > -3){tichu2 -= 1}
-        adjusttichuview(tichuView2, tichu2)
+        if(currentgame.tichu2.last() > -3){currentgame.tichu2[currentgame.tichu2.size-1] -= 1}
+        adjusttichuview(tichuView2, currentgame.tichu2.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     minusButton3.setOnClickListener {
-        if(tichu3 > -3){tichu3 -= 1}
-        adjusttichuview(tichuView3, tichu3)
+        if(currentgame.tichu3.last() > -3){currentgame.tichu3[currentgame.tichu3.size-1] -= 1}
+        adjusttichuview(tichuView3, currentgame.tichu3.last())
         isupdating = true
         displayroundscore()
         isupdating = false
     }
     minusButton4.setOnClickListener {
-        if(tichu4 > -3){tichu4 -= 1}
-        adjusttichuview(tichuView4, tichu4)
+        if(currentgame.tichu4.last() > -3){currentgame.tichu4[currentgame.tichu4.size-1] -= 1}
+        adjusttichuview(tichuView4, currentgame.tichu4.last())
         isupdating = true
         displayroundscore()
         isupdating = false
@@ -271,15 +273,16 @@ override fun onCreate(savedInstanceState: Bundle?) {
         val in1 = scoreInput1.text.toString()
         val in2 = scoreInput2.text.toString()
 
+
         if (in1.isNotEmpty() and in2.isNotEmpty()) {
             // Get the entered number from the EditText
-            score1.add(score1[score1.size-1] + scoreInput1.text.toString().toInt())
-            score2.add(score2[score2.size-1] + scoreInput2.text.toString().toInt())
+            currentgame.score1.add(currentgame.score1[currentgame.score1.size-1] + scoreInput1.text.toString().toInt())
+            currentgame.score2.add(currentgame.score2[currentgame.score2.size-1] + scoreInput2.text.toString().toInt())
             displayscoreschart()
 
             // Display the result in the TextView
-            score1TextView.text = "Team A: ${score1[score1.size-1]}"
-            score2TextView.text = "Team B: ${score2[score2.size-1]}"
+            score1TextView.text = "Team A: ${currentgame.score1[currentgame.score1.size-1]}"
+            score2TextView.text = "Team B: ${currentgame.score2[currentgame.score2.size-1]}"
 
             // Clear TextInput fields
             scoreInput1.text.clear()
@@ -288,14 +291,14 @@ override fun onCreate(savedInstanceState: Bundle?) {
             seekBar.progress = sliderValue
 
             //reset tichuviews
-            tichu1 = 0
-            tichu2 = 0
-            tichu3 = 0
-            tichu4 = 0
-            adjusttichuview(tichuView1, tichu1)
-            adjusttichuview(tichuView2, tichu2)
-            adjusttichuview(tichuView3, tichu3)
-            adjusttichuview(tichuView4, tichu4)
+            currentgame.tichu1.add(0)
+            currentgame.tichu2.add(0)
+            currentgame.tichu3.add(0)
+            currentgame.tichu4.add(0)
+            adjusttichuview(tichuView1, currentgame.tichu1[currentgame.tichu1.size-1])
+            adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu2.size-1])
+            adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu3.size-1])
+            adjusttichuview(tichuView4, currentgame.tichu4[currentgame.tichu4.size-1])
         }
     }
 }
