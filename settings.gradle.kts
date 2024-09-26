@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Tichu Counter 0"
+rootProject.name = "TichuScore 0.1"
 include(":app")
  
