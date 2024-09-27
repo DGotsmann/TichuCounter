@@ -1,5 +1,6 @@
 package com.example.tichucounter0
-import java.time.LocalDateTime
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 class Game// Default constructor
     () {
@@ -15,7 +16,8 @@ class Game// Default constructor
     var name2: String
     var name3: String
     var name4: String
-    var dateTime: LocalDateTime
+    var dateTime: LocalDateTime? = LocalDateTime.now() 
+    var round: Int
 
     
 
@@ -31,7 +33,7 @@ class Game// Default constructor
         name2 = ""
         name3 = ""
         name4 = ""
-        dateTime = LocalDateTime.now()
+        round = 1
     }
 }
 

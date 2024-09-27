@@ -16,7 +16,9 @@ import android.content.Intent   // Import for Intent
 import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
-import java.time.LocalDateTime
+import com.jakewharton.threetenabp.AndroidThreeTen
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 
 import com.google.gson.Gson
@@ -49,6 +51,7 @@ fun loadGame(gameName: String): Game? {
 
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    AndroidThreeTen.init(this) // Initialize the ThreeTenABP library
     setContentView(R.layout.activity_main)
 
     //initializing variables and objects
@@ -78,6 +81,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
     val saveButton: Button = findViewById(R.id.saveButton)
     val saveGameButton: Button = findViewById(R.id.saveGameButton)
+    val resetRoundButton: Button = findViewById(R.id.resetRoundButton)
     val scoreInput1: EditText = findViewById(R.id.scoreInput1)
     val scoreInput2: EditText = findViewById(R.id.scoreInput2)
     val seekBar: SeekBar = findViewById(R.id.scoresliderBar)
@@ -337,11 +341,13 @@ override fun onCreate(savedInstanceState: Bundle?) {
             // Get the entered number from the EditText
             currentgame.score1.add(currentgame.score1[currentgame.score1.size-1] + scoreInput1.text.toString().toInt())
             currentgame.score2.add(currentgame.score2[currentgame.score2.size-1] + scoreInput2.text.toString().toInt())
+            currentgame.round += 1
             displayscoreschart()
 
             // Clear TextInput fields
-            scoreInput1.text.clear()
-            scoreInput2.text.clear()
+            val fifty = 50
+            scoreInput1.setText(fifty.toString())
+            scoreInput2.setText(fifty.toString())
             sliderValue = 16
             seekBar.progress = sliderValue
 
@@ -429,6 +435,25 @@ override fun onCreate(savedInstanceState: Bundle?) {
         }
         builder.setNegativeButton("Cancel", null)
         builder.show()
+    }
+
+    resetRoundButton.setOnClickListener {
+        if (currentgame.score1.isEmpty() || currentgame.score1.size == 1) {
+            // Do nothing
+        } else {
+            currentgame.score1.removeLast()
+            currentgame.score2.removeLast()
+            currentgame.tichu1.removeLast()
+            currentgame.tichu2.removeLast()
+            currentgame.tichu3.removeLast()
+            currentgame.tichu4.removeLast()
+            displayscoreschart()
+            val fifty = 50
+            isupdating = true
+            scoreInput1.setText(fifty.toString())
+            scoreInput2.setText(fifty.toString())
+            isupdating = false
+        }
     }
 
 

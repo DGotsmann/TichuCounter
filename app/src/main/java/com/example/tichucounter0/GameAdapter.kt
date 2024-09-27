@@ -7,7 +7,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tichucounter0.Game
-import java.time.format.DateTimeFormatter
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 // Adapter for displaying Game objects in RecyclerView
 class GamesAdapter(
@@ -33,16 +34,18 @@ class GamesAdapter(
         // Display the current scores (last element in score1 and score2 lists)
         val scoreTeamA = game.score1.lastOrNull() ?: 0
         val scoreTeamB = game.score2.lastOrNull() ?: 0
+        val round = game.round
 
         // Display the player names
         val playerNames = listOf(game.name1, game.name2, game.name3, game.name4)
 
         // Set the text values to the views
-        //val datetimeString = game.dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-        val gameTitle = "${game.game_name} - DATETIME"
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val datetimeString = game.dateTime?.format(formatter) ?: "Unknown date"
+        val gameTitle = "${game.game_name} - ($round) - $datetimeString"
         holder.gameNameTextView.text = gameTitle
-        holder.currentScoreTextView.text = "Team A: $scoreTeamA, Team B: $scoreTeamB"
-        holder.playerNamesTextView.text = "Team A: ${game.name1}, ${game.name2} | Team B: ${game.name3}, ${game.name4}"
+        holder.currentScoreTextView.text = "Score: $scoreTeamA | $scoreTeamB"
+        holder.playerNamesTextView.text = "Teams: ${game.name1}, ${game.name2} | ${game.name3}, ${game.name4}"
 
         // Set the click listener for the button to load the game
         holder.gameButton.setOnClickListener {

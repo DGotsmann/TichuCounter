@@ -10,7 +10,7 @@
         android:id="@+id/gameButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Load Game"
+        android:text=""
         android:background="?android:attr/selectableItemBackground"
         android:gravity="start|center_vertical"
         android:padding="16dp"
@@ -28,21 +28,8 @@
         android:text="Game Name"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="@id/gameButton"
         app:layout_constraintTop_toTopOf="@id/gameButton"
-        app:layout_constraintEnd_toEndOf="@id/gameButton"/>
-
-    <!-- Current score -->
-    <TextView
-        android:id="@+id/currentScoreTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Team A: 100, Team B: 150"
-        android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
-        app:layout_constraintStart_toStartOf="@id/gameButton"
-        app:layout_constraintTop_toBottomOf="@id/gameNameTextView"
         app:layout_constraintEnd_toEndOf="@id/gameButton"/>
 
     <!-- Player names -->
@@ -52,10 +39,20 @@
         android:layout_height="wrap_content"
         android:text="Player 1, Player 2, Player 3, Player 4"
         android:textSize="14sp"
-        android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="@id/gameButton"
-        app:layout_constraintTop_toBottomOf="@id/currentScoreTextView"
+        app:layout_constraintTop_toBottomOf="@id/gameNameTextView"
         app:layout_constraintEnd_toEndOf="@id/gameButton"
         app:layout_constraintBottom_toBottomOf="@id/gameButton"/>
+
+    <!-- Current score -->
+    <TextView
+        android:id="@+id/currentScoreTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Team A: 100, Team B: 150"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/gameButton"
+        app:layout_constraintTop_toBottomOf="@id/playerNamesTextView"
+        app:layout_constraintEnd_toEndOf="@id/gameButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
