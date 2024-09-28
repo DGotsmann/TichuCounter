@@ -19,7 +19,6 @@ class Game// Default constructor
     var dateTime: LocalDateTime? = LocalDateTime.now() 
     var round: Int
 
-    
 
     init {
         game_name = "unnamed game"

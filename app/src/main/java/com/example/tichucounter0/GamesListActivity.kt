@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import android.content.Context
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 class GamesListActivity : AppCompatActivity() {
 
@@ -26,16 +27,26 @@ class GamesListActivity : AppCompatActivity() {
 
         // Load all games from SharedPreferences and sort them by datetime
         val games = savedGameNames.mapNotNull { gameName -> loadGame(gameName) }
-            //.sortedByDescending { game -> game.dateTime.second }
+            .sortedByDescending { game -> game.dateTime }
+            .toMutableList()
 
         // Set up the RecyclerView with the adapter and handle the button click
-        gamesRecyclerView.layoutManager = LinearLayoutManager(this)
-        gamesRecyclerView.adapter = GamesAdapter(games) { game ->
+        val adapter = GamesAdapter(games, onGameClick = { game ->
             // Handle the game click: change the view
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("gameName", game.game_name) // Pass the game name to MainActivity
             startActivity(intent)
-        }
+        }, onGameDeleted = { game ->
+            // Handle the game deletion: remove the game from the list and update the view
+            val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.remove(game.game_name)
+            editor.apply()
+            Toast.makeText(this, "Game deleted!", Toast.LENGTH_SHORT).show()
+        })
+
+        gamesRecyclerView.layoutManager = LinearLayoutManager(this)
+        gamesRecyclerView.adapter = adapter
 
         // Set up the new game button to start MainActivity without passing a game name
         newGameButton.setOnClickListener {
@@ -43,6 +54,7 @@ class GamesListActivity : AppCompatActivity() {
             // No need to add any extras here since this is for a new game
             startActivity(intent)
         }
+
     }
 
     // Function to load a game from SharedPreferences

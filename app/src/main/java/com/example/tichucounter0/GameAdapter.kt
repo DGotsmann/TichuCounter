@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tichucounter0.Game
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 // Adapter for displaying Game objects in RecyclerView
 class GamesAdapter(
-    private val games: List<Game>,
-    private val onGameClick: (Game) -> Unit // Callback for game click
+    private val games: MutableList<Game>, // Mutable list to allow deletion
+    private val onGameClick: (Game) -> Unit, // Callback for game click
+    private val onGameDeleted: (Game) -> Unit // Callback for game deletion
 ) : RecyclerView.Adapter<GamesAdapter.GameViewHolder>() {
 
     class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -50,6 +50,27 @@ class GamesAdapter(
         // Set the click listener for the button to load the game
         holder.gameButton.setOnClickListener {
             onGameClick(game)
+        }
+
+        // Set the long click listener for the button to delete the game
+        holder.gameButton.setOnLongClickListener {
+            // Show a confirmation dialog
+            AlertDialog.Builder(holder.itemView.context)
+                .setTitle("Delete Game")
+                .setMessage("Are you sure you want to delete this game?")
+                .setPositiveButton("Delete") { dialog, _ ->
+                    // Remove the game from the list and notify adapter
+                    onGameDeleted(game)
+                    games.removeAt(holder.adapterPosition)
+                    notifyItemRemoved(holder.adapterPosition)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+
+            true // Return true to indicate the long click was handled
         }
     }
 

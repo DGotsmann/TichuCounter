@@ -51,7 +51,6 @@ fun loadGame(gameName: String): Game? {
 
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    AndroidThreeTen.init(this) // Initialize the ThreeTenABP library
     setContentView(R.layout.activity_main)
 
     //initializing variables and objects
