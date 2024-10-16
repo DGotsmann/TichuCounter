@@ -117,6 +117,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/seekBarBubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="0"
+        android:textSize="14sp"
+        android:background="@drawable/bubble_background"
+        android:padding="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
     <View
         android:id="@+id/verticalLine"
         android:layout_width="1dp"

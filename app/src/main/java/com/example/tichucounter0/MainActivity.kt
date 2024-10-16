@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
+import android.view.View
 import androidx.core.content.ContextCompat
 import android.app.AlertDialog
 import android.content.Intent   // Import for Intent
@@ -31,8 +32,8 @@ import com.github.mikephil.charting.data.Entry
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
-
 lateinit var currentgame: Game
+
 
 // Function to load a game from SharedPreferences
 fun loadGame(gameName: String): Game? {
@@ -48,6 +49,8 @@ fun loadGame(gameName: String): Game? {
     val gson = Gson()
     return gson.fromJson(gameJson, Game::class.java)
 }
+    
+
 
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -113,8 +116,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
             scr2 = 200
         }
         else{
-            scr1 = (sliderValue-6)*5
-            scr2 = 100-(sliderValue-6)*5
+            scr1 = 100-(sliderValue-6)*5
+            scr2 = (sliderValue-6)*5
         }
 
         scr1 += 100*(currentgame.tichu1.last() + currentgame.tichu2.last())
@@ -232,23 +235,57 @@ override fun onCreate(savedInstanceState: Bundle?) {
     })
 
 //Slider Implementation-------------------------------------------------------------------------
-    seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            // Save the slider value when moved
-            isupdating = true
-            sliderValue = progress
-            displayroundscore()
-            isupdating = false
+seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        // Save the slider value when moved
+        isupdating = true
+        sliderValue = progress
+
+        var scr1 = 0
+        var scr2 = 0
+        if (sliderValue==0){
+            scr1 = 200
+            scr2 = 0
+        }
+        else if (sliderValue==32){
+            scr1 = 0
+            scr2 = 200
+        }
+        else{
+            scr1 = 100-(sliderValue-6)*5
+            scr2 = (sliderValue-6)*5
         }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            // Not needed in this case
-        }
+        displayroundscore()
 
-        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            // Not needed in this case
-        }
-    })
+        // Update the bubble text with the current progress value
+        val seekBarBubble: TextView = findViewById(R.id.seekBarBubble)
+        seekBarBubble.text = scr1.toString() + "|" + scr2.toString()
+
+        // Position the bubble above the thumb
+        val thumbPosX = seekBar?.thumb?.bounds?.exactCenterX()?.toInt() ?: 0
+        val bubblePosX = thumbPosX + 15 - seekBarBubble.width / 2
+        seekBarBubble.x = bubblePosX.toFloat()
+
+        // Show the bubble while dragging
+        seekBarBubble.visibility = View.VISIBLE
+        seekBarBubble.bringToFront() // Ensure bubble stays in front while dragging
+
+        isupdating = false
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        // Show the bubble when the user starts interacting
+        findViewById<TextView>(R.id.seekBarBubble).visibility = View.VISIBLE
+        findViewById<TextView>(R.id.seekBarBubble).bringToFront() // Ensure bubble stays in front while dragging
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        // Hide the bubble when the user stops interacting
+        findViewById<TextView>(R.id.seekBarBubble).visibility = View.INVISIBLE
+    }
+})
+
 
 //Plus/Minus-Buttons ---------------------------------------------------------------------------
     fun adjusttichuview(view: TextView,tichucount: Int){
@@ -332,6 +369,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 //Actually the Next Round Button ----------------------------------------------------------------------------------
     saveButton.setOnClickListener {
+
         val in1 = scoreInput1.text.toString()
         val in2 = scoreInput2.text.toString()
 
@@ -349,6 +387,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
             scoreInput2.setText(fifty.toString())
             sliderValue = 16
             seekBar.progress = sliderValue
+            val seekBarBubble: TextView = findViewById(R.id.seekBarBubble)
+            seekBarBubble.visibility = View.INVISIBLE
+        
 
             // Save the names currently written in the name boxes
             currentgame.name1 = findViewById<EditText>(R.id.nameInput1).text.toString()
@@ -454,7 +495,25 @@ override fun onCreate(savedInstanceState: Bundle?) {
             isupdating = false
         }
     }
+}
+override fun onBackPressed() {
+    // Add custom logic here before the back action
+    // For example, show a confirmation dialog if the user wants to exit
+    val builder = AlertDialog.Builder(this)
+    builder.setTitle("Exit")
+    builder.setMessage("Are you sure you want to exit without saving?")
+    
+    builder.setPositiveButton("Yes") { _, _ ->
+        // If user clicks "Yes", proceed with the normal back press
+        super.onBackPressed() // This will handle the default back press behavior
+    }
 
+    builder.setNegativeButton("No") { dialog, _ ->
+        // If user clicks "No", just dismiss the dialog
+        dialog.dismiss()
+    }
 
+    val dialog: AlertDialog = builder.create()
+    dialog.show()
 }
 }

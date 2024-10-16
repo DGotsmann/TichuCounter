@@ -57,6 +57,11 @@ class GamesListActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+    // Finish the current task and return to the previous app or screen
+    finishAffinity()
+    }
+
     // Function to load a game from SharedPreferences
     private fun loadGame(gameName: String): Game? {
         val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
