@@ -379,7 +379,6 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             currentgame.score1.add(currentgame.score1[currentgame.score1.size-1] + scoreInput1.text.toString().toInt())
             currentgame.score2.add(currentgame.score2[currentgame.score2.size-1] + scoreInput2.text.toString().toInt())
             currentgame.round += 1
-            displayscoreschart()
 
             // Clear TextInput fields
             val fifty = 50
@@ -406,6 +405,8 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu2.size-1])
             adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu3.size-1])
             adjusttichuview(tichuView4, currentgame.tichu4[currentgame.tichu4.size-1])
+
+            displayscoreschart()
         }
     }
 
