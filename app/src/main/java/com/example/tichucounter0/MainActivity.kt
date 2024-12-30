@@ -379,39 +379,61 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             currentgame.score1.add(currentgame.score1[currentgame.score1.size-1] + scoreInput1.text.toString().toInt())
             currentgame.score2.add(currentgame.score2[currentgame.score2.size-1] + scoreInput2.text.toString().toInt())
             currentgame.round += 1
-
-            // Clear TextInput fields
-            val fifty = 50
-            scoreInput1.setText(fifty.toString())
-            scoreInput2.setText(fifty.toString())
-            sliderValue = 16
-            seekBar.progress = sliderValue
-            val seekBarBubble: TextView = findViewById(R.id.seekBarBubble)
-            seekBarBubble.visibility = View.INVISIBLE
-        
-
-            // Save the names currently written in the name boxes
-            currentgame.name1 = findViewById<EditText>(R.id.nameInput1).text.toString()
-            currentgame.name2 = findViewById<EditText>(R.id.nameInput2).text.toString()
-            currentgame.name3 = findViewById<EditText>(R.id.nameInput3).text.toString()
-            currentgame.name4 = findViewById<EditText>(R.id.nameInput4).text.toString()
-
-            //reset tichuviews
-            currentgame.tichu1.add(0)
-            currentgame.tichu2.add(0)
-            currentgame.tichu3.add(0)
-            currentgame.tichu4.add(0)
-            adjusttichuview(tichuView1, currentgame.tichu1[currentgame.tichu1.size-1])
-            adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu2.size-1])
-            adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu3.size-1])
-            adjusttichuview(tichuView4, currentgame.tichu4[currentgame.tichu4.size-1])
-
-            displayscoreschart()
         }
+
+        
+        // Save the names currently written in the name boxes only if they are not empty
+        findViewById<EditText>(R.id.nameInput1).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name1 = it
+        }
+        findViewById<EditText>(R.id.nameInput2).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name3 = it
+        }
+        findViewById<EditText>(R.id.nameInput3).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name2 = it
+        }
+        findViewById<EditText>(R.id.nameInput4).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name4 = it
+        }
+
+        //reset tichuviews
+        currentgame.tichu1.add(0)
+        currentgame.tichu2.add(0)
+        currentgame.tichu3.add(0)
+        currentgame.tichu4.add(0)
+        adjusttichuview(tichuView1, currentgame.tichu1[currentgame.tichu1.size-1])
+        adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu2.size-1])
+        adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu3.size-1])
+        adjusttichuview(tichuView4, currentgame.tichu4[currentgame.tichu4.size-1])
+
+        displayscoreschart()
+
+        // Clear TextInput fields
+        val fifty = 50
+        scoreInput1.setText(fifty.toString())
+        scoreInput2.setText(fifty.toString())
+        sliderValue = 16
+        seekBar.progress = sliderValue
+        val seekBarBubble: TextView = findViewById(R.id.seekBarBubble)
+        seekBarBubble.visibility = View.INVISIBLE
     }
 
     fun saveGame(gameName: String, game: Game) {
         val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
+
+        // Save the names currently written in the name boxes only if they are not empty
+        findViewById<EditText>(R.id.nameInput1).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name1 = it
+        }
+        findViewById<EditText>(R.id.nameInput2).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name3 = it
+        }
+        findViewById<EditText>(R.id.nameInput3).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name2 = it
+        }
+        findViewById<EditText>(R.id.nameInput4).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name4 = it
+        }
 
         game.game_name = gameName
         game.dateTime = LocalDateTime.now()

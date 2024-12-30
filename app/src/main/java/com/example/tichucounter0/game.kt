@@ -28,10 +28,10 @@ class Game// Default constructor
         tichu2 = mutableListOf(0)
         tichu3 = mutableListOf(0)
         tichu4 = mutableListOf(0)
-        name1 = ""
-        name2 = ""
-        name3 = ""
-        name4 = ""
+        name1 = "You"
+        name2 = "Enemy1"
+        name3 = "Your Teammate"
+        name4 = "Enemy2"
         round = 1
     }
 }

@@ -21,6 +21,7 @@ class GamesListActivity : AppCompatActivity() {
 
         val gamesRecyclerView: RecyclerView = findViewById(R.id.gamesRecyclerView)
         val newGameButton: Button = findViewById(R.id.newGameButton)
+        val showStatsButton: Button = findViewById(R.id.showStatsButton)
 
         // Get the list of saved game names
         val savedGameNames = getSavedGameNames()
@@ -51,6 +52,13 @@ class GamesListActivity : AppCompatActivity() {
         // Set up the new game button to start MainActivity without passing a game name
         newGameButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            // No need to add any extras here since this is for a new game
+            startActivity(intent)
+        }
+
+        // Set up the new game button to start MainActivity without passing a game name
+        showStatsButton.setOnClickListener {
+            val intent = Intent(this, PlayersListActivity::class.java)
             // No need to add any extras here since this is for a new game
             startActivity(intent)
         }

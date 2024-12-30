@@ -25,7 +25,20 @@
         android:text="New Game"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/showStatsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <!-- Button to show stats -->
+    <Button
+        android:id="@+id/showStatsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Show Stats"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/newGameButton"
+        app:layout_constraintWidth_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

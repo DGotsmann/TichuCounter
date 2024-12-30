@@ -45,7 +45,7 @@ class GamesAdapter(
         val gameTitle = "${game.game_name} - ($round) - $datetimeString"
         holder.gameNameTextView.text = gameTitle
         holder.currentScoreTextView.text = "Score: $scoreTeamA | $scoreTeamB"
-        holder.playerNamesTextView.text = "Teams: ${game.name1}, ${game.name2} | ${game.name3}, ${game.name4}"
+        holder.playerNamesTextView.text = "Teams: ${game.name1}, ${game.name3} | ${game.name2}, ${game.name4}"
 
         // Set the click listener for the button to load the game
         holder.gameButton.setOnClickListener {
