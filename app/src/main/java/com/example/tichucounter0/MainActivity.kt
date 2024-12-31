@@ -402,8 +402,8 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         currentgame.tichu3.add(0)
         currentgame.tichu4.add(0)
         adjusttichuview(tichuView1, currentgame.tichu1[currentgame.tichu1.size-1])
-        adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu2.size-1])
-        adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu3.size-1])
+        adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu2.size-1])
+        adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu3.size-1])
         adjusttichuview(tichuView4, currentgame.tichu4[currentgame.tichu4.size-1])
 
         displayscoreschart()

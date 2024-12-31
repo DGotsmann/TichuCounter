@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/primaryBackground"
+    android:elevation="4dp">
+
+    <TextView
+        android:id="@+id/playerNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Player Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/roundsPlayedTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Rounds Played: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/playerNameTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Added new stats -->
+    <TextView
+        android:id="@+id/avgPointsPerRoundTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Avg Points Per Round: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/roundsPlayedTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/oppPointsPerRoundTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Opp Points Per Round: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/avgPointsPerRoundTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/avgPointsWithMeTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Avg Points With Me: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/oppPointsPerRoundTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+    android:id="@+id/avgPointsAgainstMeTextView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="Avg Points With Me: 0"
+    android:textSize="16sp"
+    android:textColor="@color/primaryTextColor"
+    app:layout_constraintTop_toBottomOf="@id/avgPointsWithMeTextView"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tichusDeclaredTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tichus Called: 0, Won: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/avgPointsAgainstMeTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/smallTichusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Small Tichus: Called: 0, Won: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/tichusDeclaredTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/grandTichusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Grand Tichus: Called: 0, Won: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/smallTichusTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/ganzGrossiTichusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Ganz Grossi Tichus: Called: 0, Won: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/grandTichusTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:textColor="@color/primaryTextColor"
+        android:backgroundTint="@color/blue"
+        app:layout_constraintTop_toBottomOf="@id/ganzGrossiTichusTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
