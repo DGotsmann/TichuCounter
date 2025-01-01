@@ -39,7 +39,7 @@ class PlayersListActivity : AppCompatActivity() {
 
         // Load all players from games from SharedPreferences and sort them by datetime
         val players = savedPlayerNames.mapNotNull { playerName -> loadPlayer(playerName, games) }
-            .sortedByDescending { player -> player.player_name }
+            .sortedByDescending { player -> player.rounds_played }
             .toMutableList()
 
         // Set up the RecyclerView with the adapter and handle the button click
@@ -54,15 +54,15 @@ class PlayersListActivity : AppCompatActivity() {
 
             // Populate the stats in the popup
             dialogView.findViewById<TextView>(R.id.playerNameTextView).text = player.player_name
-            dialogView.findViewById<TextView>(R.id.roundsPlayedTextView).text = "Rounds Played: ${player.rounds_played}"
-            dialogView.findViewById<TextView>(R.id.avgPointsPerRoundTextView).text = "Avg Points Per Round: ${player.avg_points_p_round}"
-            dialogView.findViewById<TextView>(R.id.oppPointsPerRoundTextView).text = "Opp Points Per Round: ${player.opp_points_p_round}"
-            dialogView.findViewById<TextView>(R.id.avgPointsWithMeTextView).text = "Avg Points With Me: ${player.avg_points_p_round_w_me}"
-            dialogView.findViewById<TextView>(R.id.avgPointsAgainstMeTextView).text = "Avg Points Against Me: ${player.avg_points_p_round_against_me}"
-            dialogView.findViewById<TextView>(R.id.tichusDeclaredTextView).text = "Tichus Called: ${player.tichus_called}, Won: ${player.tichus_won}"
-            dialogView.findViewById<TextView>(R.id.smallTichusTextView).text = "Small Tichus: Called: ${player.small_tichus_called}, Won: ${player.small_tichus_won}"
-            dialogView.findViewById<TextView>(R.id.grandTichusTextView).text = "Grand Tichus: Called: ${player.grand_tichus_called}, Won: ${player.grand_tichus_won}"
-            dialogView.findViewById<TextView>(R.id.ganzGrossiTichusTextView).text = "Ganz Grossi Tichus: Called: ${player.ganz_grossi_tichus_called}, Won: ${player.ganz_grossi_tichus_won}"
+            dialogView.findViewById<TextView>(R.id.roundsPlayedTextView).text           = "Rounds Played:                       ${player.rounds_played}"
+            dialogView.findViewById<TextView>(R.id.avgPointsPerRoundTextView).text      = "Avg Points Per Round:           ${player.avg_points_p_round}"
+            dialogView.findViewById<TextView>(R.id.oppPointsPerRoundTextView).text      = "Opp Points Per Round:          ${player.opp_points_p_round}"
+            dialogView.findViewById<TextView>(R.id.avgPointsWithMeTextView).text        = "Avg Points With Me:               ${player.avg_points_p_round_w_me}"
+            dialogView.findViewById<TextView>(R.id.avgPointsAgainstMeTextView).text     = "Avg Points Against Me:         ${player.avg_points_p_round_against_me}"
+            dialogView.findViewById<TextView>(R.id.tichusDeclaredTextView).text         = "Total Tichus:                           ${player.tichus_won}/${player.tichus_called}"
+            dialogView.findViewById<TextView>(R.id.smallTichusTextView).text            = "Small Tichus:                          ${player.small_tichus_won}/${player.small_tichus_called}"
+            dialogView.findViewById<TextView>(R.id.grandTichusTextView).text            = "Grossi Tichus:                        ${player.grand_tichus_won}/${player.grand_tichus_called}"
+            dialogView.findViewById<TextView>(R.id.ganzGrossiTichusTextView).text       = "Ganz Grossi Tichus:              ${player.ganz_grossi_tichus_won}/${player.ganz_grossi_tichus_called}"
 
             // Handle the close button
             dialogView.findViewById<Button>(R.id.closeButton).setOnClickListener {
@@ -106,18 +106,18 @@ class PlayersListActivity : AppCompatActivity() {
 
     // Iterate through all games to calculate stats
     for (game in games) {
-        val participants = listOf(game.name1, game.name2, game.name3, game.name4)
+        val participants = listOf(game.name_me, game.name_teammate, game.name_enemy1, game.name_enemy2)
         if (playerName in participants) {
             // Increment rounds played
             roundsPlayed += game.round - 1
 
             // Identify player's team
-            val isTeam1 = playerName == game.name1 || playerName == game.name3
+            val isTeam1 = playerName == game.name_me || playerName == game.name_teammate
             val playerTichus = when (playerName) {
-                game.name1 -> game.tichu1
-                game.name3 -> game.tichu3
-                game.name2 -> game.tichu2
-                game.name4 -> game.tichu4
+                game.name_me -> game.tichu_me
+                game.name_enemy1 -> game.tichu_enemy1
+                game.name_teammate -> game.tichu_teammate
+                game.name_enemy2 -> game.tichu_enemy2
                 else -> mutableListOf()
             }
 
@@ -164,6 +164,8 @@ class PlayersListActivity : AppCompatActivity() {
     player.avg_points_p_round_against_me = if (roundsPlayed - roundsWithMe > 0) totalPointsAgainstMe / (roundsPlayed - roundsWithMe) else 0
     player.tichus_called = tichusCalled
     player.tichus_won = tichusWon
+    player.small_tichus_called = smallTichusCalled
+    player.small_tichus_won = smallTichusWon
     player.grand_tichus_called = grandTichusCalled
     player.grand_tichus_won = grandTichusWon
     player.ganz_grossi_tichus_called = ganzGrossiTichusCalled
@@ -199,10 +201,10 @@ class PlayersListActivity : AppCompatActivity() {
     private fun getPlayerNames(games: MutableList<Game>): Set<String> {
         val playerNames = mutableSetOf<String>()
         for (game in games) {
-            playerNames.add(game.name1)
-            playerNames.add(game.name2)
-            playerNames.add(game.name3)
-            playerNames.add(game.name4)
+            playerNames.add(game.name_me)
+            playerNames.add(game.name_teammate)
+            playerNames.add(game.name_enemy1)
+            playerNames.add(game.name_enemy2)
         }
         return playerNames
     }

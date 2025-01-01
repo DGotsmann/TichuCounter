@@ -7,28 +7,38 @@
     tools:context=".MainActivity">
 
 
-    <EditText
+    <TextView
         android:id="@+id/scoreInput1"
         android:layout_width="132dp"
         android:layout_height="40dp"
         android:hint="Round Score A"
-        android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:text="50"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="none"
+        app:layout_constraintBottom_toTopOf="@+id/nextRoundButton"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.405"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.512" />
 
-    <EditText
+    <TextView
         android:id="@+id/scoreInput2"
         android:layout_width="146dp"
         android:layout_height="40dp"
         android:layout_marginEnd="4dp"
         android:ems="10"
         android:hint="Round Score B"
-        android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        android:gravity="center"
+        android:text="50"
+        android:textSize="24sp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="none" 
+        app:layout_constraintBottom_toTopOf="@+id/nextRoundButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.418"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -37,37 +47,21 @@
 
 
     <Button
-        android:id="@+id/saveGameButton"
+        android:id="@+id/nextRoundButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/scoreInput1"
         android:layout_marginBottom="16dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="Save Game"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/saveButton"
-        app:layout_constraintStart_toStartOf="@+id/guidelineright" />
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/scoreInput1"
-        android:layout_marginBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="18dp"
         android:paddingTop="12dp"
+        android:paddingRight="18dp"
         android:paddingBottom="12dp"
         android:text="Next Round"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineright"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/guidelineleft" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
         android:id="@+id/resetRoundButton"
@@ -75,13 +69,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/scoreInput1"
         android:layout_marginBottom="16dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="12dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="12dp"
         android:text="Reset Round"
-        android:textSize="12sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineleft"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -113,7 +109,7 @@
         android:layout_marginBottom="15dp"
         android:max="32"
         android:progress="16"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintBottom_toTopOf="@+id/nextRoundButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -144,40 +140,40 @@
 
 
     <TextView
-        android:id="@+id/tichuView1"
+        android:id="@+id/tichuView_me"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="No \n Tichu"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput2"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput_teammate"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/plusButton1"
+        android:id="@+id/plusButton_me"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="+"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput2"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput_teammate"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tichuView1" />
+        app:layout_constraintStart_toEndOf="@+id/tichuView_me" />
 
     <Button
-        android:id="@+id/minusButton1"
+        android:id="@+id/minusButton_me"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="-"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput2"
-        app:layout_constraintEnd_toStartOf="@+id/tichuView1"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput_teammate"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView_me"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/nameInput1"
+        android:id="@+id/nameInput_me"
         android:layout_width="160dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -185,13 +181,13 @@
         android:ems="10"
         android:text="You"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/tichuView1"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView_me"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scoreInput1" />
 
     <EditText
-        android:id="@+id/nameInput3"
+        android:id="@+id/nameInput_enemy1"
         android:layout_width="160dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -199,48 +195,48 @@
         android:ems="10"
         android:hint="Enemy1"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/tichuView3"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView_enemy1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/scoreInput2" />
 
     <EditText
-        android:id="@+id/nameInput2"
+        android:id="@+id/nameInput_teammate"
         android:layout_width="160dp"
         android:layout_height="48dp"
         android:layout_marginBottom="2dp"
         android:ems="10"
         android:hint="Your Teammate"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/tichuView2"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView_teammate"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/nameInput4"
+        android:id="@+id/nameInput_enemy2"
         android:layout_width="160dp"
         android:layout_height="48dp"
         android:layout_marginBottom="1dp"
         android:ems="10"
         android:hint="Enemy2"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/tichuView4"
+        app:layout_constraintBottom_toTopOf="@+id/tichuView_enemy2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <TextView
-        android:id="@+id/tichuView3"
+        android:id="@+id/tichuView_enemy1"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="No \n Tichu"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput4"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput_enemy2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <TextView
-        android:id="@+id/tichuView2"
+        android:id="@+id/tichuView_teammate"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
@@ -258,7 +254,7 @@
 
 
     <TextView
-        android:id="@+id/tichuView4"
+        android:id="@+id/tichuView_enemy2"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
@@ -269,40 +265,40 @@
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
-        android:id="@+id/minusButton3"
+        android:id="@+id/minusButton_enemy1"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="-"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput4"
-        app:layout_constraintEnd_toStartOf="@+id/tichuView3"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput_enemy2"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView_enemy1"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
-        android:id="@+id/plusButton3"
+        android:id="@+id/plusButton_enemy1"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="+"
-        app:layout_constraintBottom_toTopOf="@+id/nameInput4"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput_enemy2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tichuView3" />
+        app:layout_constraintStart_toEndOf="@+id/tichuView_enemy1" />
 
     <Button
-        android:id="@+id/minusButton2"
+        android:id="@+id/minusButton_teammate"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="-"
         app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
-        app:layout_constraintEnd_toStartOf="@+id/tichuView2"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView_teammate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/plusButton2"
+        android:id="@+id/plusButton_teammate"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
@@ -310,21 +306,21 @@
         app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tichuView2" />
+        app:layout_constraintStart_toEndOf="@+id/tichuView_teammate" />
 
     <Button
-        android:id="@+id/minusButton4"
+        android:id="@+id/minusButton_enemy2"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:text="-"
         app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
-        app:layout_constraintEnd_toStartOf="@+id/tichuView4"
+        app:layout_constraintEnd_toStartOf="@+id/tichuView_enemy2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
-        android:id="@+id/plusButton4"
+        android:id="@+id/plusButton_enemy2"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
@@ -332,7 +328,7 @@
         app:layout_constraintBottom_toTopOf="@+id/scoresliderBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tichuView4" />
+        app:layout_constraintStart_toEndOf="@+id/tichuView_enemy2" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"

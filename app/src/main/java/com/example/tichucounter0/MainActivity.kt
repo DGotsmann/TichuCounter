@@ -35,6 +35,37 @@ class MainActivity : AppCompatActivity() {
 lateinit var currentgame: Game
 
 
+fun saveGame(gameName: String, game: Game) {
+    val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
+    // Save the names currently written in the name boxes only if they are not empty
+    findViewById<EditText>(R.id.nameInput_me).text.toString().let {
+        if (it.isNotEmpty()) currentgame.name_me = it
+    }
+    findViewById<EditText>(R.id.nameInput_teammate).text.toString().let {
+        if (it.isNotEmpty()) currentgame.name_teammate = it
+    }
+    findViewById<EditText>(R.id.nameInput_enemy1).text.toString().let {
+        if (it.isNotEmpty()) currentgame.name_enemy1 = it
+    }
+    findViewById<EditText>(R.id.nameInput_enemy2).text.toString().let {
+        if (it.isNotEmpty()) currentgame.name_enemy2 = it
+    }
+
+    game.game_name = gameName
+    game.dateTime = LocalDateTime.now()
+    val gson = Gson()
+    val gameJson = gson.toJson(game)
+    val editor = sharedPreferences.edit()
+    editor.putString(gameName, gameJson)
+    editor.apply()
+    Toast.makeText(this, "Game saved successfully!", Toast.LENGTH_SHORT).show()
+    // Navigate to the GamesListActivity after saving
+    val intent = Intent(this, GamesListActivity::class.java)
+    startActivity(intent)
+    // Optionally, finish the current activity to remove it from the back stack
+    finish()
+}
+
 // Function to load a game from SharedPreferences
 fun loadGame(gameName: String): Game? {
     val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", MODE_PRIVATE)
@@ -49,14 +80,62 @@ fun loadGame(gameName: String): Game? {
     val gson = Gson()
     return gson.fromJson(gameJson, Game::class.java)
 }
-    
 
+fun adjusttichuview(view: TextView, tichucount: Int, isNightMode: Boolean){
+    if(tichucount == 0){
+        view.text = "Kein\nTichu"
+        view.setTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
+    }
+    else if(abs(tichucount) == 1){
+        view.text = "Tichu"
+    }
+    else if(abs(tichucount) == 2){
+        view.text = "Grosses\nTichu"
+    }
+    else if(abs(tichucount) == 3){
+        view.text = "Ganz\nGrosses"
+    }
+    if(tichucount > 0){
+        view.setTextColor(Color.GREEN)
+    }
+    else if(tichucount < 0){
+        view.setTextColor(Color.RED)
+    }
+}
+    
 
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
     //initializing variables and objects
+    var isupdating: Boolean = false //used to stop infinite updates of textEdits
+    var sliderValue: Int = 16 // position of slider, Default value (center)
+
+    // Get the current theme mode
+    var nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+    var isNightMode = nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+
+
+    val nextRoundButton: Button = findViewById(R.id.nextRoundButton)
+    val resetRoundButton: Button = findViewById(R.id.resetRoundButton)
+    val scoreInput1: TextView = findViewById(R.id.scoreInput1)
+    val scoreInput2: TextView = findViewById(R.id.scoreInput2)
+    val seekBar: SeekBar = findViewById(R.id.scoresliderBar)
+    seekBar.progress = sliderValue
+    val lineChart: LineChart = findViewById(R.id.lineChart)
+    val plusButton_me: Button = findViewById(R.id.plusButton_me)
+    val plusButton_teammate: Button = findViewById(R.id.plusButton_teammate)
+    val plusButton_enemy1: Button = findViewById(R.id.plusButton_enemy1)
+    val plusButton_enemy2: Button = findViewById(R.id.plusButton_enemy2)
+    val minusButton_me: Button = findViewById(R.id.minusButton_me)
+    val minusButton_teammate: Button = findViewById(R.id.minusButton_teammate)
+    val minusButton_enemy1: Button = findViewById(R.id.minusButton_enemy1)
+    val minusButton_enemy2: Button = findViewById(R.id.minusButton_enemy2)
+    val tichuView_me: TextView = findViewById(R.id.tichuView_me)
+    val tichuView_teammate: TextView = findViewById(R.id.tichuView_teammate)
+    val tichuView_enemy1: TextView = findViewById(R.id.tichuView_enemy1)
+    val tichuView_enemy2: TextView = findViewById(R.id.tichuView_enemy2)
 
     // Check if a Game was passed as an argument in the Intent
     val gameName = intent.getStringExtra("gameName")
@@ -64,43 +143,19 @@ override fun onCreate(savedInstanceState: Bundle?) {
         val passedGame = loadGame(gameName) ?: Game()
         currentgame = passedGame
         // Set the names in the UI
-        findViewById<EditText>(R.id.nameInput1).setText(currentgame.name1)
-        findViewById<EditText>(R.id.nameInput2).setText(currentgame.name2)
-        findViewById<EditText>(R.id.nameInput3).setText(currentgame.name3)
-        findViewById<EditText>(R.id.nameInput4).setText(currentgame.name4)
+        findViewById<EditText>(R.id.nameInput_me).setText(currentgame.name_me)
+        findViewById<EditText>(R.id.nameInput_teammate).setText(currentgame.name_teammate)
+        findViewById<EditText>(R.id.nameInput_enemy1).setText(currentgame.name_enemy1)
+        findViewById<EditText>(R.id.nameInput_enemy2).setText(currentgame.name_enemy2)
+        // Set tichus to 0 on the ui
+        adjusttichuview(tichuView_me, 0, isNightMode)
+        adjusttichuview(tichuView_teammate, 0, isNightMode)
+        adjusttichuview(tichuView_enemy1, 0, isNightMode)
+        adjusttichuview(tichuView_enemy2, 0, isNightMode)
     } else {
         // If no Game was passed, create a new one
         currentgame = Game()
     }
-
-    var isupdating: Boolean = false //used to stop infinite updates of textEdits
-    var sliderValue: Int = 16 // position of slider, Default value (center)
-
-    // Get the current theme mode
-    val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-    val isNightMode = nightModeFlags == Configuration.UI_MODE_NIGHT_YES
-
-
-    val saveButton: Button = findViewById(R.id.saveButton)
-    val saveGameButton: Button = findViewById(R.id.saveGameButton)
-    val resetRoundButton: Button = findViewById(R.id.resetRoundButton)
-    val scoreInput1: EditText = findViewById(R.id.scoreInput1)
-    val scoreInput2: EditText = findViewById(R.id.scoreInput2)
-    val seekBar: SeekBar = findViewById(R.id.scoresliderBar)
-    seekBar.progress = sliderValue
-    val lineChart: LineChart = findViewById(R.id.lineChart)
-    val plusButton1: Button = findViewById(R.id.plusButton1)
-    val plusButton2: Button = findViewById(R.id.plusButton2)
-    val plusButton3: Button = findViewById(R.id.plusButton3)
-    val plusButton4: Button = findViewById(R.id.plusButton4)
-    val minusButton1: Button = findViewById(R.id.minusButton1)
-    val minusButton2: Button = findViewById(R.id.minusButton2)
-    val minusButton3: Button = findViewById(R.id.minusButton3)
-    val minusButton4: Button = findViewById(R.id.minusButton4)
-    val tichuView1: TextView = findViewById(R.id.tichuView1)
-    val tichuView2: TextView = findViewById(R.id.tichuView2)
-    val tichuView3: TextView = findViewById(R.id.tichuView3)
-    val tichuView4: TextView = findViewById(R.id.tichuView4)
 
 
 //Function to display score of round in entry field,  only to be called when isupdating == true
@@ -120,8 +175,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
             scr2 = (sliderValue-6)*5
         }
 
-        scr1 += 100*(currentgame.tichu1.last() + currentgame.tichu2.last())
-        scr2 += 100*(currentgame.tichu3.last() + currentgame.tichu4.last())
+        scr1 += 100*(currentgame.tichu_me.last() + currentgame.tichu_teammate.last())
+        scr2 += 100*(currentgame.tichu_enemy1.last() + currentgame.tichu_enemy2.last())
 
         scoreInput1.setText(scr1.toString())
         scoreInput2.setText(scr2.toString())
@@ -140,8 +195,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
         }
         val primaryTextColor = ContextCompat.getColor(this, R.color.primaryTextColor)
 
-        val teamAScore = "Team A: ${currentgame.score1[currentgame.score1.size-1]}             "
-        val teamBScore = "Team B: ${currentgame.score2[currentgame.score2.size-1]}"
+        val teamAScore = "My Bros: ${currentgame.score1[currentgame.score1.size-1]}             "
+        val teamBScore = "The Hoes: ${currentgame.score2[currentgame.score2.size-1]}"
 
         // Create LineDataSet objects for score1 and score2
         val dataSet1 = LineDataSet(entries1, teamAScore)
@@ -179,60 +234,6 @@ override fun onCreate(savedInstanceState: Bundle?) {
         lineChart.invalidate()
     }
     displayscoreschart() //initial display
-
-//Manual Score Input----------------------------------------------------------------------------
-    scoreInput1.addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Not needed in this case
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (!isupdating) {
-                isupdating = true
-
-                val inputText = s.toString()
-                if (inputText.isNotEmpty() && inputText != "-"){
-                    if (inputText.toInt()%5 == 0){//need for userfriendly input
-                    sliderValue = inputText.toInt()/5+6
-                    displayroundscore()
-                }}
-                scoreInput1.setSelection(scoreInput1.text.length)
-
-                isupdating = false
-            }
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-            // Not needed in this case
-        }
-    })
-
-    scoreInput2.addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Not needed in this case
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (!isupdating) {
-                isupdating = true
-
-                val inputText = s.toString()
-                if (inputText.isNotEmpty()){//need for userfriendly input
-                    if (inputText.toInt()%5 == 0){
-                    sliderValue = (100-inputText.toInt())/5+6
-                    displayroundscore()
-                }}
-
-                scoreInput2.setSelection(scoreInput2.text.length)
-
-                isupdating = false
-            }
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-            // Not needed in this case
-        }
-    })
 
 //Slider Implementation-------------------------------------------------------------------------
 seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -288,87 +289,66 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
 
 //Plus/Minus-Buttons ---------------------------------------------------------------------------
-    fun adjusttichuview(view: TextView,tichucount: Int){
-        if(tichucount == 0){
-            view.text = "Kein\nTichu"
-            view.setTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
-        }
-        else if(abs(tichucount) == 1){
-            view.text = "Tichu"
-        }
-        else if(abs(tichucount) == 2){
-            view.text = "Grosses\nTichu"
-        }
-        else if(abs(tichucount) == 3){
-            view.text = "Ganz\nGrosses"
-        }
-        if(tichucount > 0){
-            view.setTextColor(Color.GREEN)
-        }
-        else if(tichucount < 0){
-            view.setTextColor(Color.RED)
-        }
-    }
 
-    plusButton1.setOnClickListener {
-        if(currentgame.tichu1.last() < 3){currentgame.tichu1[currentgame.tichu1.size-1] += 1}
-        adjusttichuview(tichuView1, currentgame.tichu1.last())
+    plusButton_me.setOnClickListener {
+        if(currentgame.tichu_me.last() < 3){currentgame.tichu_me[currentgame.tichu_me.size-1] += 1}
+        adjusttichuview(tichuView_me, currentgame.tichu_me.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    plusButton2.setOnClickListener {
-        if(currentgame.tichu2.last() < 3){currentgame.tichu2[currentgame.tichu2.size-1] += 1}
-        adjusttichuview(tichuView2, currentgame.tichu2.last())
+    plusButton_teammate.setOnClickListener {
+        if(currentgame.tichu_teammate.last() < 3){currentgame.tichu_teammate[currentgame.tichu_teammate.size-1] += 1}
+        adjusttichuview(tichuView_teammate, currentgame.tichu_teammate.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    plusButton3.setOnClickListener {
-        if(currentgame.tichu3.last() < 3){currentgame.tichu3[currentgame.tichu3.size-1] += 1}
-        adjusttichuview(tichuView3, currentgame.tichu3.last())
+    plusButton_enemy1.setOnClickListener {
+        if(currentgame.tichu_enemy1.last() < 3){currentgame.tichu_enemy1[currentgame.tichu_enemy1.size-1] += 1}
+        adjusttichuview(tichuView_enemy1, currentgame.tichu_enemy1.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    plusButton4.setOnClickListener {
-        if(currentgame.tichu4.last() < 3){currentgame.tichu4[currentgame.tichu4.size-1] += 1}
-        adjusttichuview(tichuView4, currentgame.tichu4.last())
+    plusButton_enemy2.setOnClickListener {
+        if(currentgame.tichu_enemy2.last() < 3){currentgame.tichu_enemy2[currentgame.tichu_enemy2.size-1] += 1}
+        adjusttichuview(tichuView_enemy2, currentgame.tichu_enemy2.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    minusButton1.setOnClickListener {
-        if(currentgame.tichu1.last() > -3){currentgame.tichu1[currentgame.tichu1.size-1] -= 1}
-        adjusttichuview(tichuView1, currentgame.tichu1.last())
+    minusButton_me.setOnClickListener {
+        if(currentgame.tichu_me.last() > -3){currentgame.tichu_me[currentgame.tichu_me.size-1] -= 1}
+        adjusttichuview(tichuView_me, currentgame.tichu_me.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    minusButton2.setOnClickListener {
-        if(currentgame.tichu2.last() > -3){currentgame.tichu2[currentgame.tichu2.size-1] -= 1}
-        adjusttichuview(tichuView2, currentgame.tichu2.last())
+    minusButton_teammate.setOnClickListener {
+        if(currentgame.tichu_teammate.last() > -3){currentgame.tichu_teammate[currentgame.tichu_teammate.size-1] -= 1}
+        adjusttichuview(tichuView_teammate, currentgame.tichu_teammate.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    minusButton3.setOnClickListener {
-        if(currentgame.tichu3.last() > -3){currentgame.tichu3[currentgame.tichu3.size-1] -= 1}
-        adjusttichuview(tichuView3, currentgame.tichu3.last())
+    minusButton_enemy1.setOnClickListener {
+        if(currentgame.tichu_enemy1.last() > -3){currentgame.tichu_enemy1[currentgame.tichu_enemy1.size-1] -= 1}
+        adjusttichuview(tichuView_enemy1, currentgame.tichu_enemy1.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
-    minusButton4.setOnClickListener {
-        if(currentgame.tichu4.last() > -3){currentgame.tichu4[currentgame.tichu4.size-1] -= 1}
-        adjusttichuview(tichuView4, currentgame.tichu4.last())
+    minusButton_enemy2.setOnClickListener {
+        if(currentgame.tichu_enemy2.last() > -3){currentgame.tichu_enemy2[currentgame.tichu_enemy2.size-1] -= 1}
+        adjusttichuview(tichuView_enemy2, currentgame.tichu_enemy2.last(), isNightMode)
         isupdating = true
         displayroundscore()
         isupdating = false
     }
 
 //Actually the Next Round Button ----------------------------------------------------------------------------------
-    saveButton.setOnClickListener {
+    nextRoundButton.setOnClickListener {
 
         val in1 = scoreInput1.text.toString()
         val in2 = scoreInput2.text.toString()
@@ -383,30 +363,38 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
         
         // Save the names currently written in the name boxes only if they are not empty
-        findViewById<EditText>(R.id.nameInput1).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name1 = it
+        findViewById<EditText>(R.id.nameInput_me).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name_me = it
         }
-        findViewById<EditText>(R.id.nameInput2).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name3 = it
+        findViewById<EditText>(R.id.nameInput_teammate).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name_teammate = it
         }
-        findViewById<EditText>(R.id.nameInput3).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name2 = it
+        findViewById<EditText>(R.id.nameInput_enemy1).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name_enemy1 = it
         }
-        findViewById<EditText>(R.id.nameInput4).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name4 = it
+        findViewById<EditText>(R.id.nameInput_enemy2).text.toString().let {
+            if (it.isNotEmpty()) currentgame.name_enemy2 = it
         }
 
         //reset tichuviews
-        currentgame.tichu1.add(0)
-        currentgame.tichu2.add(0)
-        currentgame.tichu3.add(0)
-        currentgame.tichu4.add(0)
-        adjusttichuview(tichuView1, currentgame.tichu1[currentgame.tichu1.size-1])
-        adjusttichuview(tichuView3, currentgame.tichu3[currentgame.tichu2.size-1])
-        adjusttichuview(tichuView2, currentgame.tichu2[currentgame.tichu3.size-1])
-        adjusttichuview(tichuView4, currentgame.tichu4[currentgame.tichu4.size-1])
+        currentgame.tichu_me.add(0)
+        currentgame.tichu_teammate.add(0)
+        currentgame.tichu_enemy1.add(0)
+        currentgame.tichu_enemy2.add(0)
+        adjusttichuview(tichuView_me, currentgame.tichu_me[currentgame.tichu_me.size-1], isNightMode)
+        adjusttichuview(tichuView_teammate, currentgame.tichu_teammate[currentgame.tichu_teammate.size-1], isNightMode)
+        adjusttichuview(tichuView_enemy1, currentgame.tichu_enemy1[currentgame.tichu_enemy1.size-1], isNightMode)
+        adjusttichuview(tichuView_enemy2, currentgame.tichu_enemy2[currentgame.tichu_enemy2.size-1], isNightMode)
 
         displayscoreschart()
+
+        val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
+        currentgame.dateTime = LocalDateTime.now()
+        val gson = Gson()
+        val gameJson = gson.toJson(currentgame)
+        val editor = sharedPreferences.edit()
+        editor.putString(currentgame.game_name, gameJson)
+        editor.apply()
 
         // Clear TextInput fields
         val fifty = 50
@@ -418,125 +406,42 @@ seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         seekBarBubble.visibility = View.INVISIBLE
     }
 
-    fun saveGame(gameName: String, game: Game) {
-        val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
-
-        // Save the names currently written in the name boxes only if they are not empty
-        findViewById<EditText>(R.id.nameInput1).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name1 = it
-        }
-        findViewById<EditText>(R.id.nameInput2).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name3 = it
-        }
-        findViewById<EditText>(R.id.nameInput3).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name2 = it
-        }
-        findViewById<EditText>(R.id.nameInput4).text.toString().let {
-            if (it.isNotEmpty()) currentgame.name4 = it
-        }
-
-        game.game_name = gameName
-        game.dateTime = LocalDateTime.now()
-
-        // Convert the game object to a JSON string
-        val gson = Gson()
-        val gameJson = gson.toJson(game)
-
-        // Save the JSON string with the game name as the key
-        val editor = sharedPreferences.edit()
-        editor.putString(gameName, gameJson)
-        editor.apply()
-
-        Toast.makeText(this, "Game saved successfully!", Toast.LENGTH_SHORT).show()
-
-        // Navigate to the GamesListActivity after saving
-        val intent = Intent(this, GamesListActivity::class.java)
-        startActivity(intent)
-
-        // Optionally, finish the current activity to remove it from the back stack
-        finish()
-
-    }
-
     // Function to get all saved game names
     fun getSavedGameNames(): Set<String> {
         val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", MODE_PRIVATE)
         return sharedPreferences.all.keys
     }
 
-
-
-    saveGameButton.setOnClickListener {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Save Game")
-
-        // Check if the game name is already set
-        if (currentgame.game_name.isNotEmpty() && currentgame.game_name != "unnamed game") {
-            // Save the game using the existing game name
-            saveGame(currentgame.game_name, currentgame)
-        }
-
-        // Create an input field for the game name
-        val input = EditText(this)
-        input.hint = "Enter Game Name"
-        builder.setView(input)
-
-        builder.setPositiveButton("Save") { dialog, which ->
-            val gameName = input.text.toString()
-
-            if (gameName.isNotEmpty()) {
-                // Check if the game name already exists
-                val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
-                if (sharedPreferences.contains(gameName)) {
-                    Toast.makeText(this, "Name already exists", Toast.LENGTH_SHORT).show()
-                } 
-                else {
-                // Save the game using SharedPreferences
-                saveGame(gameName, currentgame)
-                }
-            }
-        }
-        builder.setNegativeButton("Cancel", null)
-        builder.show()
-    }
-
     resetRoundButton.setOnClickListener {
         if (currentgame.score1.isEmpty() || currentgame.score1.size == 1) {
             // Do nothing
         } else {
+            currentgame.round -= 1
             currentgame.score1.removeLast()
             currentgame.score2.removeLast()
-            currentgame.tichu1.removeLast()
-            currentgame.tichu2.removeLast()
-            currentgame.tichu3.removeLast()
-            currentgame.tichu4.removeLast()
+            currentgame.tichu_me.removeLast()
+            currentgame.tichu_teammate.removeLast()
+            currentgame.tichu_enemy1.removeLast()
+            currentgame.tichu_enemy2.removeLast()
             displayscoreschart()
             val fifty = 50
             isupdating = true
             scoreInput1.setText(fifty.toString())
             scoreInput2.setText(fifty.toString())
             isupdating = false
+
+            val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
+            currentgame.dateTime = LocalDateTime.now()
+            val gson = Gson()
+            val gameJson = gson.toJson(currentgame)
+            val editor = sharedPreferences.edit()
+            editor.putString(currentgame.game_name, gameJson)
+            editor.apply()
         }
     }
 }
 override fun onBackPressed() {
-    // Add custom logic here before the back action
-    // For example, show a confirmation dialog if the user wants to exit
-    val builder = AlertDialog.Builder(this)
-    builder.setTitle("Exit")
-    builder.setMessage("Are you sure you want to exit without saving?")
-    
-    builder.setPositiveButton("Yes") { _, _ ->
-        // If user clicks "Yes", proceed with the normal back press
-        super.onBackPressed() // This will handle the default back press behavior
-    }
-
-    builder.setNegativeButton("No") { dialog, _ ->
-        // If user clicks "No", just dismiss the dialog
-        dialog.dismiss()
-    }
-
-    val dialog: AlertDialog = builder.create()
-    dialog.show()
+    // save the game with its current name 
+    saveGame(currentgame.game_name, currentgame)
 }
 }

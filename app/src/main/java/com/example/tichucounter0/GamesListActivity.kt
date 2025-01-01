@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
+import android.app.AlertDialog
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,9 +53,44 @@ class GamesListActivity : AppCompatActivity() {
 
         // Set up the new game button to start MainActivity without passing a game name
         newGameButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            // No need to add any extras here since this is for a new game
-            startActivity(intent)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Create Game")
+
+            // Create an input field for the game name
+            val input = EditText(this)
+            input.hint = "Enter Game Name"
+            builder.setView(input)
+
+            builder.setPositiveButton("Create") { dialog, which ->
+                val gameName = input.text.toString()
+
+                if (gameName.isNotEmpty()) {
+                    // Check if the game name already exists
+                    val sharedPreferences: SharedPreferences = getSharedPreferences("SavedGames", Context.MODE_PRIVATE)
+                    if (sharedPreferences.contains(gameName)) {
+                        Toast.makeText(this, "Name already exists", Toast.LENGTH_SHORT).show()
+                    } 
+                    else {
+                    // Save the game using SharedPreferences
+                    val game = Game()
+                    game.game_name = gameName
+                    val gson = Gson()
+                    val gameJson = gson.toJson(game)
+                    val editor = sharedPreferences.edit()
+                    editor.putString(gameName, gameJson)
+                    editor.apply()
+                    // load the game screen
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("gameName", gameName)
+                    startActivity(intent)
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show()
+                }
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
         }
 
         // Set up the new game button to start MainActivity without passing a game name

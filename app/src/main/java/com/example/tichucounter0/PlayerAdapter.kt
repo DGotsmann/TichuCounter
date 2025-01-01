@@ -36,7 +36,7 @@ class PlayerAdapter(
         // Set the text values to the views
         val playerTitle = "${player.player_name}"
         holder.playerNameTextView.text = playerTitle
-        holder.currentStatTextView.text = "Rounds Played: $rounds_played | hallo"
+        holder.currentStatTextView.text = "Rounds Played: $rounds_played | Avg Points: ${player.avg_points_p_round}"
 
         // Set the click listener for the button to load the player
         holder.playerContainer.setOnClickListener {

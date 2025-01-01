@@ -8,14 +8,14 @@ class Game// Default constructor
     var game_name: String
     var score1: MutableList<Int>
     var score2: MutableList<Int>
-    var tichu1: MutableList<Int>
-    var tichu2: MutableList<Int>
-    var tichu3: MutableList<Int>
-    var tichu4: MutableList<Int>
-    var name1: String
-    var name2: String
-    var name3: String
-    var name4: String
+    var tichu_me: MutableList<Int>
+    var tichu_teammate: MutableList<Int>
+    var tichu_enemy1: MutableList<Int>
+    var tichu_enemy2: MutableList<Int>
+    var name_me: String
+    var name_teammate: String
+    var name_enemy1: String
+    var name_enemy2: String
     var dateTime: LocalDateTime? = LocalDateTime.now() 
     var round: Int
 
@@ -24,14 +24,14 @@ class Game// Default constructor
         game_name = "unnamed game"
         score1 = mutableListOf(0)
         score2 = mutableListOf(0)
-        tichu1 = mutableListOf(0)
-        tichu2 = mutableListOf(0)
-        tichu3 = mutableListOf(0)
-        tichu4 = mutableListOf(0)
-        name1 = "You"
-        name2 = "Enemy1"
-        name3 = "Your Teammate"
-        name4 = "Enemy2"
+        tichu_me = mutableListOf(0)
+        tichu_teammate = mutableListOf(0)
+        tichu_enemy1 = mutableListOf(0)
+        tichu_enemy2 = mutableListOf(0)
+        name_me = "You"
+        name_teammate = "Your Teammate"
+        name_enemy1 = "Enemy1"
+        name_enemy2 = "Enemy2"
         round = 1
     }
 }

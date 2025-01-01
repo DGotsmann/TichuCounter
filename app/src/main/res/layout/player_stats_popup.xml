@@ -27,10 +27,9 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/playerNameTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/playerNameTextView"
+        app:layout_constraintEnd_toEndOf="@id/playerNameTextView" />
 
-    <!-- Added new stats -->
     <TextView
         android:id="@+id/avgPointsPerRoundTextView"
         android:layout_width="0dp"
@@ -39,8 +38,8 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/roundsPlayedTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/roundsPlayedTextView"
+        app:layout_constraintEnd_toEndOf="@id/roundsPlayedTextView" />
 
     <TextView
         android:id="@+id/oppPointsPerRoundTextView"
@@ -50,8 +49,8 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/avgPointsPerRoundTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/avgPointsPerRoundTextView"
+        app:layout_constraintEnd_toEndOf="@id/avgPointsPerRoundTextView" />
 
     <TextView
         android:id="@+id/avgPointsWithMeTextView"
@@ -61,19 +60,19 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/oppPointsPerRoundTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/oppPointsPerRoundTextView"
+        app:layout_constraintEnd_toEndOf="@id/oppPointsPerRoundTextView" />
 
     <TextView
-    android:id="@+id/avgPointsAgainstMeTextView"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="Avg Points With Me: 0"
-    android:textSize="16sp"
-    android:textColor="@color/primaryTextColor"
-    app:layout_constraintTop_toBottomOf="@id/avgPointsWithMeTextView"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+        android:id="@+id/avgPointsAgainstMeTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Avg Points Against Me: 0"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintTop_toBottomOf="@id/avgPointsWithMeTextView"
+        app:layout_constraintStart_toStartOf="@id/avgPointsWithMeTextView"
+        app:layout_constraintEnd_toEndOf="@id/avgPointsWithMeTextView" />
 
     <TextView
         android:id="@+id/tichusDeclaredTextView"
@@ -83,8 +82,8 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/avgPointsAgainstMeTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/avgPointsAgainstMeTextView"
+        app:layout_constraintEnd_toEndOf="@id/avgPointsAgainstMeTextView" />
 
     <TextView
         android:id="@+id/smallTichusTextView"
@@ -94,8 +93,8 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/tichusDeclaredTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/tichusDeclaredTextView"
+        app:layout_constraintEnd_toEndOf="@id/tichusDeclaredTextView" />
 
     <TextView
         android:id="@+id/grandTichusTextView"
@@ -105,8 +104,8 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/smallTichusTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/smallTichusTextView"
+        app:layout_constraintEnd_toEndOf="@id/smallTichusTextView" />
 
     <TextView
         android:id="@+id/ganzGrossiTichusTextView"
@@ -116,8 +115,8 @@
         android:textSize="16sp"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintTop_toBottomOf="@id/grandTichusTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/grandTichusTextView"
+        app:layout_constraintEnd_toEndOf="@id/grandTichusTextView" />
 
     <Button
         android:id="@+id/closeButton"
