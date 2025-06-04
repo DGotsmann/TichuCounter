@@ -133,10 +133,10 @@ class PlayersListActivity : AppCompatActivity() {
             ganzGrossiTichusCalled += playerTichus.count { it == 3 || it == -3 }
 
             // Check won Tichus
-            tichusWon = playerTichus.count { it > 0 }
-            smallTichusWon = playerTichus.count { it == 1 }
-            grandTichusWon = playerTichus.count { it == 2 }
-            ganzGrossiTichusWon = playerTichus.count { it == 3 }
+            tichusWon += playerTichus.count { it > 0 }
+            smallTichusWon += playerTichus.count { it == 1 }
+            grandTichusWon += playerTichus.count { it == 2 }
+            ganzGrossiTichusWon += playerTichus.count { it == 3 }
 
             // Calculate point difference and totals
             val team1Score = game.score1.lastOrNull() ?: 0
